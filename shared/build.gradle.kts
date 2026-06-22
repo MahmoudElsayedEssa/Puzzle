@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -47,9 +48,25 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.collections.immutable)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.compose.uiTestJunit4)
+        }
+        // Android-only host (JVM) tests — Robolectric provides the Android runtime so the
+        // Compose UI tests in src/androidHostTest can run without a device.
+        getByName("androidHostTest").dependencies {
+            implementation(libs.robolectric)
+            implementation(libs.androidx.testExt.junit)
+            implementation(libs.androidx.test.core)
+            implementation(libs.compose.uiTestJunit4)
+            // Provides a test AndroidManifest declaring ComponentActivity for createComposeRule.
+            implementation(libs.compose.uiTestManifest)
         }
     }
 }
