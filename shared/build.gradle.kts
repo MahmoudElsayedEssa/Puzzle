@@ -10,7 +10,6 @@ plugins {
 
 kotlin {
     listOf(
-        iosX64(),        // Intel simulator
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
