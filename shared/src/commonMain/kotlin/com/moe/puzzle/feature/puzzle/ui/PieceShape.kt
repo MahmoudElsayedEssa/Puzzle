@@ -17,7 +17,7 @@ import com.moe.puzzle.feature.puzzle.domain.PuzzlePiece
  *
  * Caller scales the path to screen pixels via withTransform or Matrix.transform.
  */
-fun buildPiecePath(edges: EdgeProfile): Path = Path().apply {
+internal fun buildPiecePath(edges: EdgeProfile): Path = Path().apply {
     moveTo(0f, 0f)
     // Top: (0,0)→(1,0), outward normal (0,-1)
     addEdge(this, 0f, 0f, 1f, 0f, 0f, -1f, edges.top)
@@ -89,7 +89,7 @@ private fun squareCrop(image: ImageBitmap): Pair<IntOffset, IntSize> {
  * The image is centre-cropped to a square (so non-square assets don't distort), drawn across the
  * whole board span, and the clip restricts it to this piece.
  */
-fun DrawScope.drawPieceFragment(
+internal fun DrawScope.drawPieceFragment(
     grid: GridSpec,
     piece: PuzzlePiece,
     image: ImageBitmap,
@@ -110,7 +110,7 @@ fun DrawScope.drawPieceFragment(
 }
 
 /** Draws the centre-cropped whole image to fill the current board-sized draw area. */
-fun DrawScope.drawBoardImage(image: ImageBitmap, widthPx: Int, heightPx: Int, alpha: Float) {
+internal fun DrawScope.drawBoardImage(image: ImageBitmap, widthPx: Int, heightPx: Int, alpha: Float) {
     val (srcOffset, srcSize) = squareCrop(image)
     drawImage(
         image = image,

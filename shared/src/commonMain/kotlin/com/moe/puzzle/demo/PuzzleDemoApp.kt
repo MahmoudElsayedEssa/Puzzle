@@ -40,7 +40,7 @@ import com.moe.puzzle.feature.puzzle.ui.PuzzleCampaignScreenContent
 
 private val demoConfig = PuzzleConfig(
     campaignId = CampaignId("demo_campaign"),
-    grid = GridSpec(rows = 3, cols = 3),
+    grid = GridSpec(rows = 2, cols = 2),
     // Start with the first row unlocked so the tray is immediately playable.
     progress = PuzzleProgress((0 until 3).toSet()),
     reward = RewardDisplay(label = "10 GB Free Data", ctaText = "Claim Reward"),

@@ -10,11 +10,13 @@ plugins {
 
 kotlin {
     listOf(
+        iosX64(),        // Intel simulator
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "Shared"
+            binaryOption("bundleId", "com.moe.puzzle.shared")
             isStatic = true
         }
     }
