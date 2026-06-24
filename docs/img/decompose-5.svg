@@ -1,0 +1,42 @@
+<svg viewBox="0 0 380 430" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+  <title>The 5-piece layout: a 2x2 grid plus one center piece</title>
+  <rect width="380" height="430" fill="#ffffff"/>
+  <text x="190" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#2B2B33">5 pieces = 2×2 + 1 center</text>
+  <text x="190" y="50" text-anchor="middle" font-size="12" fill="#7A8194">on a 4×4 fine grid, each color is one piece</text>
+
+  <!-- faint 4x4 cell lines -->
+  <g stroke="#E6E9F0" stroke-width="1">
+    <line x1="60" y1="70" x2="300" y2="70"/><line x1="60" y1="130" x2="300" y2="130"/>
+    <line x1="60" y1="190" x2="300" y2="190"/><line x1="60" y1="250" x2="300" y2="250"/>
+    <line x1="60" y1="310" x2="300" y2="310"/>
+    <line x1="60" y1="70" x2="60" y2="310"/><line x1="120" y1="70" x2="120" y2="310"/>
+    <line x1="180" y1="70" x2="180" y2="310"/><line x1="240" y1="70" x2="240" y2="310"/>
+    <line x1="300" y1="70" x2="300" y2="310"/>
+  </g>
+
+  <!-- piece regions (fill light, thick outline) -->
+  <!-- 0 top-left -->
+  <path d="M60,70 H180 V130 H120 V190 H60 Z" fill="#F4A259" fill-opacity="0.22" stroke="#E08A3C" stroke-width="2.5"/>
+  <!-- 1 top-right -->
+  <path d="M180,70 H300 V190 H240 V130 H180 Z" fill="#5B8DEF" fill-opacity="0.20" stroke="#4170C9" stroke-width="2.5"/>
+  <!-- 2 bottom-left -->
+  <path d="M60,190 H120 V250 H180 V310 H60 Z" fill="#57C5A3" fill-opacity="0.22" stroke="#3FA786" stroke-width="2.5"/>
+  <!-- 3 bottom-right -->
+  <path d="M240,190 H300 V310 H180 V250 H240 Z" fill="#9B72CF" fill-opacity="0.20" stroke="#7E55B3" stroke-width="2.5"/>
+  <!-- 4 center -->
+  <path d="M120,130 H240 V250 H120 Z" fill="#E07A9B" fill-opacity="0.30" stroke="#C95A7E" stroke-width="2.5"/>
+
+  <!-- ids -->
+  <text x="95" y="100" text-anchor="middle" font-size="22" font-weight="700" fill="#B96A20">0</text>
+  <text x="265" y="100" text-anchor="middle" font-size="22" font-weight="700" fill="#33559E">1</text>
+  <text x="95" y="285" text-anchor="middle" font-size="22" font-weight="700" fill="#2E8064">2</text>
+  <text x="265" y="285" text-anchor="middle" font-size="22" font-weight="700" fill="#653F94">3</text>
+  <text x="180" y="198" text-anchor="middle" font-size="24" font-weight="700" fill="#B14571">4</text>
+
+  <!-- callout -->
+  <text x="190" y="350" text-anchor="middle" font-size="12.5" fill="#2B2B33">The center piece (4) takes one corner cell from each</text>
+  <text x="190" y="368" text-anchor="middle" font-size="12.5" fill="#2B2B33">neighbor, so the 5 pieces tile the board exactly once.</text>
+
+  <!-- the fine-grid assignment as text -->
+  <text x="190" y="398" text-anchor="middle" font-size="13" font-family="monospace" fill="#7A8194">0 0 1 1   ·   0 4 4 1   ·   2 4 4 3   ·   2 2 3 3</text>
+</svg>

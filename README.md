@@ -1,3 +1,23 @@
+# Puzzle
+
+A Kotlin Multiplatform / Compose Multiplatform jigsaw-puzzle game (Android + iOS). The user picks an
+image from their device, types any piece count (2–49), and assembles a **knobbed jigsaw** — including
+non-grid layouts (e.g. `5 = 2×2 + 1 center`, `11 = 2×4 + a centered band of 3`) via a free-form
+**slot engine**.
+
+## Documentation
+
+- **[docs/engineering-guide.md](docs/engineering-guide.md)** — ★ authoritative guide to the current
+  code: architecture, class/sequence diagrams, the slot engine, rendering, flows, testing.
+- **[docs/algorithms-and-rendering.md](docs/algorithms-and-rendering.md)** — ★ deep dive: the exact
+  algorithms, the real numbers/constants, the bezier knob math, and the render loop.
+- [docs/puzzle-campaign-master-document.md](docs/puzzle-campaign-master-document.md) — original design
+  decision framework (historical).
+- [docs/puzzle-campaign-architecture.md](docs/puzzle-campaign-architecture.md) — original architecture
+  proposal (historical; see its deviation banner).
+
+---
+
 This is a Kotlin Multiplatform project targeting Android, iOS.
 
 * [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,

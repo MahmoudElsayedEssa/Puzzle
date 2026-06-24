@@ -1,0 +1,33 @@
+<svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+  <title>Placing 11 pieces: lopsided cluster versus a centered band</title>
+  <rect width="560" height="320" fill="#ffffff"/>
+  <text x="280" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#2B2B33">Why primes look better now (n = 11)</text>
+  <text x="280" y="50" text-anchor="middle" font-size="12" fill="#7A8194">center pieces (pink) are placed as a centered band, not a corner cluster</text>
+
+  <!-- LEFT: lopsided 3x3 + 2 -->
+  <g>
+    <rect x="40" y="78" width="200" height="200" rx="6" fill="#FAFBFC" stroke="#C9CDD6" stroke-width="2"/>
+    <g stroke="#E6E9F0" stroke-width="1.4">
+      <line x1="106.7" y1="78" x2="106.7" y2="278"/><line x1="173.3" y1="78" x2="173.3" y2="278"/>
+      <line x1="40" y1="144.7" x2="240" y2="144.7"/><line x1="40" y1="211.3" x2="240" y2="211.3"/>
+    </g>
+    <!-- two overlays clustered top -->
+    <rect x="73" y="111" width="67" height="67" rx="5" fill="#E07A9B" fill-opacity="0.45" stroke="#C95A7E" stroke-width="2"/>
+    <rect x="140" y="111" width="67" height="67" rx="5" fill="#E07A9B" fill-opacity="0.45" stroke="#C95A7E" stroke-width="2"/>
+    <text x="140" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="#B23A3A">3×3 + 2  ✗ lopsided</text>
+  </g>
+
+  <!-- RIGHT: balanced 2x4 + band of 3 -->
+  <g>
+    <rect x="320" y="78" width="200" height="200" rx="6" fill="#FAFBFC" stroke="#C9CDD6" stroke-width="2"/>
+    <g stroke="#E6E9F0" stroke-width="1.4">
+      <line x1="370" y1="78" x2="370" y2="278"/><line x1="420" y1="78" x2="420" y2="278"/><line x1="470" y1="78" x2="470" y2="278"/>
+      <line x1="320" y1="178" x2="520" y2="178"/>
+    </g>
+    <!-- band of three overlays across the middle -->
+    <rect x="345" y="145" width="50" height="66" rx="5" fill="#E07A9B" fill-opacity="0.45" stroke="#C95A7E" stroke-width="2"/>
+    <rect x="395" y="145" width="50" height="66" rx="5" fill="#E07A9B" fill-opacity="0.45" stroke="#C95A7E" stroke-width="2"/>
+    <rect x="445" y="145" width="50" height="66" rx="5" fill="#E07A9B" fill-opacity="0.45" stroke="#C95A7E" stroke-width="2"/>
+    <text x="420" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="#2E8064">2×4 + band  ✓ balanced</text>
+  </g>
+</svg>
