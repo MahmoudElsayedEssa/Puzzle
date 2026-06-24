@@ -11,6 +11,11 @@ non-grid layouts (e.g. `5 = 2×2 + 1 center`, `11 = 2×4 + a centered band of 3`
   code: architecture, class/sequence diagrams, the slot engine, rendering, flows, testing.
 - **[docs/algorithms-and-rendering.md](docs/algorithms-and-rendering.md)** — ★ deep dive: the exact
   algorithms, the real numbers/constants, the bezier knob math, and the render loop.
+- **[docs/rendering-decision-onepager.md](docs/rendering-decision-onepager.md)** — ★ one-page executive
+  summary + visual scorecard for the rendering decision (start here for the meeting).
+- **[docs/client-rendering-comparison.md](docs/client-rendering-comparison.md)** — ★ full client-side
+  comparison of all rendering approaches (procedural vs grid vs backend PNGs vs atlas vs vector masks):
+  efficiency, memory, GPU cost, multi-device/density, problems, and a decision tree.
 - [docs/puzzle-campaign-master-document.md](docs/puzzle-campaign-master-document.md) — original design
   decision framework (historical).
 - [docs/puzzle-campaign-architecture.md](docs/puzzle-campaign-architecture.md) — original architecture

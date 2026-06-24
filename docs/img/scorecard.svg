@@ -1,0 +1,112 @@
+<svg viewBox="0 0 820 500" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+<rect width="820" height="500" fill="#ffffff"/>
+<text x="28" y="34" font-size="20" font-weight="700" fill="#2B2B33">Puzzle rendering — client scorecard</text>
+<text x="28" y="56" font-size="12.5" fill="#6B7280">Rated for a fragmented Android + iOS fleet — the lower-end devices decide.</text>
+<rect x="20" y="72" width="780" height="40" rx="8" fill="#EEF1F6"/>
+<text x="32" y="97" font-size="12.5" font-weight="700" fill="#2B2B33">Approach</text>
+<text x="195" y="97" text-anchor="middle" font-size="12" font-weight="700" fill="#2B2B33">Render</text>
+<text x="265" y="97" text-anchor="middle" font-size="12" font-weight="700" fill="#2B2B33">Memory</text>
+<text x="335" y="97" text-anchor="middle" font-size="12" font-weight="700" fill="#2B2B33">Network</text>
+<text x="405" y="97" text-anchor="middle" font-size="12" font-weight="700" fill="#2B2B33">Density</text>
+<text x="475" y="97" text-anchor="middle" font-size="12" font-weight="700" fill="#2B2B33">Low-end</text>
+<text x="545" y="97" text-anchor="middle" font-size="12" font-weight="700" fill="#2B2B33">Maintain</text>
+<text x="615" y="97" text-anchor="middle" font-size="12" font-weight="700" fill="#2B2B33">Look</text>
+<text x="730" y="97" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2B2B33">Verdict</text>
+<circle cx="46" cy="152" r="14" fill="#2B2B33"/>
+<text x="46" y="157" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">A</text>
+<text x="70" y="157" font-size="13.5" font-weight="600" fill="#2B2B33">Procedural</text>
+<rect x="169" y="133" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="195" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<rect x="239" y="133" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="265" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="309" y="133" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="335" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="379" y="133" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="405" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="449" y="133" width="52" height="38" rx="9" fill="#E0A33A"/>
+<text x="475" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">~</text>
+<rect x="519" y="133" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="545" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<rect x="589" y="133" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="615" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<text x="730" y="157" text-anchor="middle" font-size="12" font-weight="500" fill="#3A3F4B">Flexible · hard to own</text>
+<rect x="20" y="184" width="780" height="60" rx="8" fill="#F7F8FA"/>
+<circle cx="46" cy="216" r="14" fill="#2B2B33"/>
+<text x="46" y="221" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">B</text>
+<text x="70" y="221" font-size="13.5" font-weight="600" fill="#2B2B33">Grid</text>
+<rect x="169" y="197" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="195" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="239" y="197" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="265" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="309" y="197" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="335" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="379" y="197" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="405" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="449" y="197" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="475" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="519" y="197" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="545" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="589" y="197" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="615" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<text x="730" y="221" text-anchor="middle" font-size="12" font-weight="500" fill="#3A3F4B">Cheapest · plain look</text>
+<circle cx="46" cy="280" r="14" fill="#2B2B33"/>
+<text x="46" y="285" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">C</text>
+<text x="70" y="285" font-size="13.5" font-weight="600" fill="#2B2B33">PNG files</text>
+<rect x="169" y="261" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="195" y="286" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="239" y="261" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="265" y="286" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<rect x="309" y="261" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="335" y="286" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<rect x="379" y="261" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="405" y="286" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<rect x="449" y="261" width="52" height="38" rx="9" fill="#E0A33A"/>
+<text x="475" y="286" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">~</text>
+<rect x="519" y="261" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="545" y="286" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="589" y="261" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="615" y="286" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<text x="730" y="285" text-anchor="middle" font-size="12" font-weight="500" fill="#3A3F4B">Avoid for low-end</text>
+<rect x="20" y="312" width="780" height="60" rx="8" fill="#F7F8FA"/>
+<circle cx="46" cy="344" r="14" fill="#2B2B33"/>
+<text x="46" y="349" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">D</text>
+<text x="70" y="349" font-size="13.5" font-weight="600" fill="#2B2B33">Atlas</text>
+<rect x="169" y="325" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="195" y="350" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="239" y="325" width="52" height="38" rx="9" fill="#E0A33A"/>
+<text x="265" y="350" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">~</text>
+<rect x="309" y="325" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="335" y="350" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="379" y="325" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="405" y="350" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<rect x="449" y="325" width="52" height="38" rx="9" fill="#E0A33A"/>
+<text x="475" y="350" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">~</text>
+<rect x="519" y="325" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="545" y="350" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="589" y="325" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="615" y="350" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<text x="730" y="349" text-anchor="middle" font-size="12" font-weight="500" fill="#3A3F4B">Best raster art</text>
+<rect x="20" y="376" width="780" height="60" rx="8" fill="#EAF6EF" stroke="#3FAE6B" stroke-width="2"/>
+<circle cx="46" cy="408" r="14" fill="#2B2B33"/>
+<text x="46" y="413" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">E</text>
+<text x="70" y="413" font-size="13.5" font-weight="600" fill="#2B2B33">Vector masks</text>
+<rect x="169" y="389" width="52" height="38" rx="9" fill="#D7563F"/>
+<text x="195" y="414" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✗</text>
+<rect x="239" y="389" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="265" y="414" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="309" y="389" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="335" y="414" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="379" y="389" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="405" y="414" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<rect x="449" y="389" width="52" height="38" rx="9" fill="#E0A33A"/>
+<text x="475" y="414" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">~</text>
+<rect x="519" y="389" width="52" height="38" rx="9" fill="#E0A33A"/>
+<text x="545" y="414" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">~</text>
+<rect x="589" y="389" width="52" height="38" rx="9" fill="#3FAE6B"/>
+<text x="615" y="414" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">✓</text>
+<text x="730" y="413" text-anchor="middle" font-size="12" font-weight="700" fill="#1E7A47">★ Best all-round</text>
+<rect x="20" y="460" width="14" height="14" rx="3" fill="#3FAE6B"/><text x="40" y="472" font-size="12" fill="#6B7280">good</text>
+<rect x="100" y="460" width="14" height="14" rx="3" fill="#E0A33A"/><text x="120" y="472" font-size="12" fill="#6B7280">ok</text>
+<rect x="165" y="460" width="14" height="14" rx="3" fill="#D7563F"/><text x="185" y="472" font-size="12" fill="#6B7280">weak</text>
+<text x="800" y="472" text-anchor="end" font-size="11.5" fill="#9AA0AC">Decision driver: entry-level Android. Test there, not on the demo iPhone.</text>
+</svg>
