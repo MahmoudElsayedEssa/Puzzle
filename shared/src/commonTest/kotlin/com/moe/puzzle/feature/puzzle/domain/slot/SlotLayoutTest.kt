@@ -52,4 +52,19 @@ class SlotLayoutTest {
             }
         }
     }
+
+    @Test
+    fun anyTypedCountBuildsExactlyThatManyPieces() {
+        // The general planner must place overlays without disconnecting a base piece (which would
+        // throw during boundary tracing) for every count a user could type.
+        for (n in MIN_PIECE_COUNT..MAX_PIECE_COUNT) {
+            assertEquals(n, slotLayoutForCount(n).totalPieces, "count=$n")
+        }
+    }
+
+    @Test
+    fun typedCountIsClamped() {
+        assertEquals(MIN_PIECE_COUNT, slotLayoutForCount(0).totalPieces)
+        assertEquals(MAX_PIECE_COUNT, slotLayoutForCount(999).totalPieces)
+    }
 }

@@ -23,28 +23,68 @@ private const val DEFAULT_SEED = 0x5EEDL
 fun centerFiveLayout(seed: Long = DEFAULT_SEED): SlotLayout =
     gridPlusOverlaysLayout(baseRows = 2, baseCols = 2, overlays = listOf(1 to 1), seed = seed)
 
+/** Lower / upper bounds for a user-typed piece count. */
+const val MIN_PIECE_COUNT = 2
+const val MAX_PIECE_COUNT = 49
+
 /**
- * Maps a desired piece count to a knobbed layout. Composite, near-square counts are a plain grid;
- * primes are a base grid plus one or two center pieces (the "grid + center overlay" family).
- * Overlay vertices are chosen to keep every base piece connected.
+ * Maps *any* desired piece count to a knobbed layout. Composite, near-square counts are a plain grid;
+ * other counts (primes included) are a base grid plus center pieces (the "grid + center overlay"
+ * family). The count is clamped to [[MIN_PIECE_COUNT], [MAX_PIECE_COUNT]].
  */
 fun slotLayoutForCount(n: Int, seed: Long = DEFAULT_SEED): SlotLayout {
-    val plan = planFor(n)
+    val plan = planFor(n.coerceIn(MIN_PIECE_COUNT, MAX_PIECE_COUNT))
     return gridPlusOverlaysLayout(plan.rows, plan.cols, plan.overlays, seed)
 }
 
-/** Counts the slot engine renders as a clean knobbed jigsaw (grid or grid + center overlay). */
+/** Handy presets for quick selection in the demo. */
 val SLOT_PIECE_COUNTS = listOf(5, 7, 9, 11, 13)
 
 private data class Plan(val rows: Int, val cols: Int, val overlays: List<Pair<Int, Int>>)
 
-private fun planFor(n: Int): Plan = when (n) {
-    5 -> Plan(2, 2, listOf(1 to 1))
-    7 -> Plan(2, 3, listOf(1 to 1))
-    9 -> Plan(3, 3, emptyList())
-    11 -> Plan(3, 3, listOf(1 to 1, 1 to 2))   // adjacent vertices keep base pieces connected
-    13 -> Plan(3, 4, listOf(1 to 2))
-    else -> error("Unsupported slot piece count: $n")
+/**
+ * Chooses a base grid + overlay placement for [n], preferring a **symmetric** result. Overlays are
+ * placed as a single centered band on the grid's middle row, which (a) keeps every base piece
+ * connected — a single-row band can never bite all four corners off a cell — and (b) reads as a
+ * balanced strip of center pieces rather than a lopsided cluster.
+ *
+ * Scoring rewards near-square aspect, an even row count (so the band sits on the exact center line),
+ * and a horizontally centered band.
+ */
+private fun planFor(n: Int): Plan {
+    var best: Plan? = null
+    var bestScore = Float.MAX_VALUE
+    for (rows in 1..n) {
+        for (cols in 1..n) {
+            val area = rows * cols
+            if (area > n) break
+            val plan = candidate(rows, cols, n - area) ?: continue
+            val score = scoreOf(plan)
+            if (score < bestScore) {
+                bestScore = score
+                best = plan
+            }
+        }
+    }
+    return best ?: Plan(1, n, emptyList())
+}
+
+/** A base [rows]×[cols] grid with [k] overlays as a centered band on the middle row, or null. */
+private fun candidate(rows: Int, cols: Int, k: Int): Plan? {
+    if (k == 0) return Plan(rows, cols, emptyList())
+    if (rows < 2) return null              // need an interior row to host a center piece
+    if (cols - 1 < k) return null          // band must fit within one interior row
+    val row = rows / 2                     // middle interior row (the exact center line when rows is even)
+    val startCol = 1 + ((cols - 1) - k) / 2
+    return Plan(rows, cols, (0 until k).map { row to (startCol + it) })
+}
+
+private fun scoreOf(plan: Plan): Float {
+    val aspectExcess = maxOf(plan.rows, plan.cols).toFloat() / minOf(plan.rows, plan.cols) - 1f
+    val k = plan.overlays.size
+    val verticalAsym = if (k == 0 || plan.rows % 2 == 0) 0f else 1f        // even rows → band on center line
+    val horizontalAsym = if (k == 0 || ((plan.cols - 1) - k) % 2 == 0) 0f else 1f
+    return aspectExcess * 2.5f + verticalAsym * 3.5f + horizontalAsym * 1.5f + k * 0.3f
 }
 
 /**

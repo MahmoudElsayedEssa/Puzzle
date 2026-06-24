@@ -10,66 +10,78 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.moe.puzzle.feature.puzzle.domain.CampaignEventSink
 import com.moe.puzzle.feature.puzzle.domain.CampaignId
-import com.moe.puzzle.feature.puzzle.domain.EdgeStrategy
-import com.moe.puzzle.feature.puzzle.domain.NICE_PIECE_COUNTS
-import com.moe.puzzle.feature.puzzle.domain.PuzzleConfig
-import com.moe.puzzle.feature.puzzle.domain.PuzzleProgress
 import com.moe.puzzle.feature.puzzle.domain.PlacementStyle
 import com.moe.puzzle.feature.puzzle.domain.RewardDisplay
 import com.moe.puzzle.feature.puzzle.domain.RewardHandler
-import com.moe.puzzle.feature.puzzle.domain.gridForCount
+import com.moe.puzzle.feature.puzzle.domain.slot.MAX_PIECE_COUNT
+import com.moe.puzzle.feature.puzzle.domain.slot.MIN_PIECE_COUNT
 import com.moe.puzzle.feature.puzzle.domain.slot.SLOT_PIECE_COUNTS
 import com.moe.puzzle.feature.puzzle.domain.slot.slotLayoutForCount
 import com.moe.puzzle.feature.puzzle.presentation.PuzzleEffect
-import com.moe.puzzle.feature.puzzle.presentation.PuzzleIntent
-import com.moe.puzzle.feature.puzzle.presentation.PuzzleViewModel
 import com.moe.puzzle.feature.puzzle.presentation.SlotIntent
 import com.moe.puzzle.feature.puzzle.presentation.SlotPuzzleViewModel
-import com.moe.puzzle.feature.puzzle.ui.PuzzleCampaignScreenContent
 import com.moe.puzzle.feature.puzzle.ui.SlotPuzzleScreen
-
-/** Builds a demo config for the chosen piece count; the count resolves to a near-square grid. */
-private fun demoConfig(pieceCount: Int): PuzzleConfig {
-    val grid = gridForCount(pieceCount)
-    return PuzzleConfig(
-        campaignId = CampaignId("demo_campaign"),
-        grid = grid,
-        // Start with everything unlocked so the tray is immediately playable at any count.
-        progress = PuzzleProgress((0 until grid.totalPieces).toSet()),
-        reward = RewardDisplay(label = "10 GB Free Data", ctaText = "Claim Reward"),
-        edgeStrategy = EdgeStrategy.Jigsaw,
-        placementStyle = PlacementStyle.FADE_AND_POP,
-    )
-}
 
 private val noOpEventSink = CampaignEventSink { /* no-op in demo */ }
 private val noOpRewardHandler = RewardHandler { /* no-op in demo */ }
 
-private enum class DemoMode { GRID, CENTER }
-
-/** Self-contained demo: switch between the rectangular grid puzzle and the 5-piece center layout. */
+/**
+ * Demo: the user picks an image from their device and types any piece count; the slot engine builds
+ * a knobbed jigsaw (a grid for composite counts, grid + centered overlay pieces otherwise).
+ */
 @Composable
 fun PuzzleDemoApp() {
-    var mode by remember { mutableStateOf(DemoMode.GRID) }
+    // Device image picking (Android); falls back to the bundled demo image until the user picks one.
+    val picker = rememberImagePicker()
+    val demoImage = rememberDemoImageProvider().provide("demo")
+    val image = picker.image ?: demoImage
+
+    var countText by remember { mutableStateOf(SLOT_PIECE_COUNTS.first().toString()) }
+    val typed = countText.toIntOrNull()
+    val pieceCount = (typed ?: SLOT_PIECE_COUNTS.first()).coerceIn(MIN_PIECE_COUNT, MAX_PIECE_COUNT)
+    val layout = remember(pieceCount) { slotLayoutForCount(pieceCount) }
+
+    val viewModel = viewModel(key = "slot_$pieceCount") {
+        SlotPuzzleViewModel(
+            layout = layout,
+            campaignId = CampaignId("demo_campaign"),
+            // Start with everything unlocked so all pieces are immediately in the tray.
+            initialUnlocked = (0 until layout.totalPieces).toSet(),
+            placementStyle = PlacementStyle.FADE_AND_POP,
+            reward = RewardDisplay(label = "10 GB Free Data", ctaText = "Claim Reward"),
+            eventSink = noOpEventSink,
+            rewardHandler = noOpRewardHandler,
+        )
+    }
+
+    LaunchedEffect(viewModel) {
+        viewModel.effects.collect { effect ->
+            when (effect) {
+                is PuzzleEffect.Emit -> println("[PuzzleDemo] event: ${effect.event}")
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -85,145 +97,43 @@ fun PuzzleDemoApp() {
             fontWeight = FontWeight.Bold,
         )
 
-        // ── Layout mode toggle ───────────────────────────────────────────────
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            ModeButton("Grid", mode == DemoMode.GRID, Modifier.weight(1f)) { mode = DemoMode.GRID }
-            ModeButton("Center (5)", mode == DemoMode.CENTER, Modifier.weight(1f)) { mode = DemoMode.CENTER }
+        // ── Image source ─────────────────────────────────────────────────────
+        Button(onClick = { picker.pick() }, modifier = Modifier.fillMaxWidth()) {
+            Text(if (picker.image != null) "Change image" else "Choose image from device")
         }
 
-        when (mode) {
-            DemoMode.GRID -> GridPuzzleDemo()
-            DemoMode.CENTER -> CenterPuzzleDemo()
-        }
-    }
-}
-
-@Composable
-private fun ModeButton(label: String, selected: Boolean, modifier: Modifier, onClick: () -> Unit) {
-    if (selected) {
-        Button(onClick = onClick, modifier = modifier) { Text(label) }
-    } else {
-        OutlinedButton(onClick = onClick, modifier = modifier) { Text(label) }
-    }
-}
-
-/** The original rectangular-grid puzzle, with a user-controlled piece count. */
-@Composable
-private fun GridPuzzleDemo() {
-    val imageProvider = rememberDemoImageProvider()
-
-    var pieceCount by remember { mutableStateOf(NICE_PIECE_COUNTS.first()) }
-    val grid = remember(pieceCount) { gridForCount(pieceCount) }
-
-    val viewModel = viewModel(key = "grid_$pieceCount") {
-        PuzzleViewModel(
-            config = demoConfig(pieceCount),
-            eventSink = noOpEventSink,
-            rewardHandler = noOpRewardHandler,
-        )
-    }
-    val state by viewModel.state.collectAsState()
-
-    LaunchedEffect(viewModel) {
-        viewModel.effects.collect { effect ->
-            when (effect) {
-                is PuzzleEffect.Emit -> println("[PuzzleDemo] grid event: ${effect.event}")
-            }
-        }
-    }
-
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            text = "Pieces: $pieceCount  ·  ${grid.rows}×${grid.cols}",
-            style = MaterialTheme.typography.labelLarge,
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-            NICE_PIECE_COUNTS.forEach { count ->
-                ModeButton("$count", count == pieceCount, Modifier.weight(1f)) { pieceCount = count }
-            }
-        }
-
-        PuzzleCampaignScreenContent(
-            state = state,
-            image = imageProvider.provide("demo"),
-            onIntent = viewModel::onIntent,
+        // ── Piece count (type any number) ────────────────────────────────────
+        OutlinedTextField(
+            value = countText,
+            onValueChange = { input -> countText = input.filter { it.isDigit() }.take(2) },
+            label = { Text("Number of pieces ($MIN_PIECE_COUNT–$MAX_PIECE_COUNT)") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            supportingText = {
+                Text("Building $pieceCount pieces${if (typed != null && typed != pieceCount) " (clamped)" else ""}")
+            },
             modifier = Modifier.fillMaxWidth(),
         )
 
-        Spacer(Modifier.height(4.dp))
-
-        val allUnlocked = state.unlocked.size >= state.total
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-            Button(
-                onClick = { viewModel.onIntent(PuzzleIntent.UnlockNext) },
-                enabled = !allUnlocked,
-                modifier = Modifier.weight(1f),
-            ) { Text("Unlock next") }
-            Button(
-                onClick = { repeat(state.total - state.unlocked.size) { viewModel.onIntent(PuzzleIntent.UnlockNext) } },
-                enabled = !allUnlocked,
-                modifier = Modifier.weight(1f),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-            ) { Text("Unlock all") }
-            OutlinedButton(
-                onClick = { viewModel.onIntent(PuzzleIntent.Reset) },
-                modifier = Modifier.weight(1f),
-            ) { Text("Reset") }
-        }
-    }
-}
-
-private fun slotLabel(n: Int): String = when (n) {
-    9 -> "9 · 3×3 grid"
-    else -> "$n · grid + center"
-}
-
-/** The slot-engine puzzle: knobbed jigsaw layouts including primes (5, 7, 11, 13) via center overlays. */
-@Composable
-private fun CenterPuzzleDemo() {
-    val imageProvider = rememberDemoImageProvider()
-
-    var pieceCount by remember { mutableStateOf(SLOT_PIECE_COUNTS.first()) }
-    val layout = remember(pieceCount) { slotLayoutForCount(pieceCount) }
-
-    val viewModel = viewModel(key = "slot_$pieceCount") {
-        SlotPuzzleViewModel(
-            layout = layout,
-            campaignId = CampaignId("demo_center"),
-            // Start with everything unlocked so all pieces are immediately in the tray.
-            initialUnlocked = (0 until layout.totalPieces).toSet(),
-            placementStyle = PlacementStyle.FADE_AND_POP,
-            reward = RewardDisplay(label = "10 GB Free Data", ctaText = "Claim Reward"),
-            eventSink = noOpEventSink,
-            rewardHandler = noOpRewardHandler,
-        )
-    }
-
-    LaunchedEffect(viewModel) {
-        viewModel.effects.collect { effect ->
-            when (effect) {
-                is PuzzleEffect.Emit -> println("[PuzzleDemo] slot event: ${effect.event}")
-            }
-        }
-    }
-
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            text = slotLabel(pieceCount) + "  ·  slot engine",
-            style = MaterialTheme.typography.labelLarge,
-        )
+        // Quick presets.
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
             SLOT_PIECE_COUNTS.forEach { count ->
-                ModeButton("$count", count == pieceCount, Modifier.weight(1f)) { pieceCount = count }
+                val selected = count == pieceCount
+                if (selected) {
+                    Button(onClick = { countText = count.toString() }, modifier = Modifier.weight(1f)) {
+                        Text("$count")
+                    }
+                } else {
+                    OutlinedButton(onClick = { countText = count.toString() }, modifier = Modifier.weight(1f)) {
+                        Text("$count")
+                    }
+                }
             }
         }
 
         SlotPuzzleScreen(
             viewModel = viewModel,
-            image = imageProvider.provide("demo"),
+            image = image,
             modifier = Modifier.fillMaxWidth(),
         )
 
